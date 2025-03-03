@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo, useCallback} from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ComparisonChart from './components/ComparisonChart';
@@ -15,6 +15,13 @@ const App = () => {
   const [currency, setCurrency] = useState('inr');
   const [timeRange, setTimeRange] = useState('24h');
   const [page, setPage] = useState(1);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // LocalStorage और system preference check
+    const savedMode = localStorage.getItem('darkMode');
+    return savedMode !== null 
+      ? JSON.parse(savedMode)
+      : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   const currencySymbols = {
     'inr': '₹',
@@ -50,11 +57,25 @@ const App = () => {
   }, [currency, page]);
 
   React.useEffect(() => {
-    fetchCryptoData();
+   fetchCryptoData();
     const intervalId = setInterval(fetchCryptoData, 120000);
     return () => clearInterval(intervalId);
   }, [fetchCryptoData]);
 
+  React.useEffect(() => {
+    // Initialize dark mode from localStorage or system preference
+    const savedMode = localStorage.getItem('darkMode');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialMode = savedMode !== null ? JSON.parse(savedMode) : systemDark;
+    
+    // Apply dark mode class to HTML element
+    if(initialMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    setIsDarkMode(initialMode);
+  }, []);
   const handleSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -120,9 +141,22 @@ const App = () => {
     return <span className={`${textColorClass} font-semibold`}>{arrow} {Math.abs(percentage).toFixed(2)}%</span>;
   };
 
+  const toggleDarkMode = useCallback(() => {
+    setIsDarkMode(prev => {
+      const newMode = !prev;
+      if(newMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('darkMode', newMode);
+      return newMode;
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-200">
-      <Header currency={currency} setCurrency={setCurrency} fetchCryptoData={fetchCryptoData} />
+      <Header currency={currency} setCurrency={setCurrency} fetchCryptoData={fetchCryptoData} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}/>
       
       <main className="container mx-auto px-4 py-6">
         {/* Search & Actions Bar */}
