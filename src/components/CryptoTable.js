@@ -21,7 +21,7 @@ const CryptoTable = ({
       {error && (
         <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
           <p>{error}</p>
-          <p className="text-sm mt-1">API limit reach ho gayi hai ya network error hai. Thodi der baad try karein.</p>
+          <p className="text-sm mt-1">API limit reached or network error. Please try again later.</p>
         </div>
       )}
 
@@ -117,7 +117,8 @@ const CryptoTable = ({
             ) : (
               <tr>
                 <td colSpan="6" className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
-                  Koi cryptocurrency nahi mili. Search term badal kar try karein.
+                No cryptocurrency found. Try changing the search term.
+
                 </td>
               </tr>
             )}

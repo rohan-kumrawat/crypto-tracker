@@ -100,7 +100,7 @@ const App = () => {
       if (selectedCryptos.length < 4) {
         setSelectedCryptos([...selectedCryptos, crypto]);
       } else {
-        alert("Aap sirf 4 currencies ko compare kar sakte hain");
+        alert("You can compare only up to 4 currencies.");
       }
     }
   };
@@ -157,7 +157,7 @@ const App = () => {
                 if (selectedCryptos.length >= 2) {
                   setComparingMode(!comparingMode);
                 } else {
-                  alert("Tulna karne ke liye kam se kam 2 cryptocurrencies select kijiye");
+                  alert("Select at least 2 cryptocurrencies for comparison.");
                 }
               }}
               className={`px-4 py-2 rounded-md text-sm font-medium ${
@@ -167,7 +167,7 @@ const App = () => {
               }`}
               disabled={selectedCryptos.length < 2}
             >
-              {comparingMode ? 'Tulna Band Karein' : 'Tulna Karein'}
+              {comparingMode ? 'Stop Comparison' : 'Compare'}
             </button>
           </div>
         </div>
