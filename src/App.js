@@ -3,6 +3,11 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ComparisonChart from './components/ComparisonChart';
 import CryptoTable from './components/CryptoTable';
+import ClickSpark from './blocks/Animations/ClickSpark/ClickSpark';
+
+
+//import DecryptedText from './blocks/TextAnimations/DecryptedText/DecryptedText';
+//import SplashCursor from './blocks/Animations/SplashCursor/SplashCursor';
 
 const App = () => {
   const [cryptoData, setCryptoData] = useState([]);
@@ -58,7 +63,7 @@ const App = () => {
 
   React.useEffect(() => {
    fetchCryptoData();
-    const intervalId = setInterval(fetchCryptoData, 120000);
+   const intervalId = setInterval(fetchCryptoData, 120000);
     return () => clearInterval(intervalId);
   }, [fetchCryptoData]);
 
@@ -83,7 +88,7 @@ const App = () => {
     }
     setSortConfig({ key, direction });
   };
-
+  
   const sortedData = React.useMemo(() => {
     let sortableItems = [...cryptoData];
     if (sortConfig.key !== null) {
@@ -113,7 +118,7 @@ const App = () => {
       coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [sortedData, searchTerm]);
-
+  
   const toggleCryptoSelection = (crypto) => {
     if (selectedCryptos.some(c => c.id === crypto.id)) {
       setSelectedCryptos(selectedCryptos.filter(c => c.id !== crypto.id));
@@ -125,7 +130,7 @@ const App = () => {
       }
     }
   };
-
+  
   const formatCurrency = (value) => {
     if (value === null || value === undefined) return 'N/A';
     if (value >= 1e9) return `${currencySymbols[currency]}${(value/1e9).toFixed(2)}B`;
@@ -133,7 +138,7 @@ const App = () => {
     if (value >= 1e3) return `${currencySymbols[currency]}${(value/1e3).toFixed(2)}K`;
     return `${currencySymbols[currency]}${value.toFixed(2)}`;
   };
-
+  
   const renderPriceChange = (percentage) => {
     if (percentage === null || percentage === undefined) return <span className="text-gray-500">N/A</span>;
     const textColorClass = percentage >= 0 ? "text-green-500" : "text-red-500";
@@ -155,7 +160,9 @@ const App = () => {
   }, []);
 
   return (
+    <ClickSpark sparkColor='#fff' sparkSize={10} sparkRadius={15} sparkCount={8} duration={400}>
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-200">
+      {/* <SplashCursor /> */}
       <Header currency={currency} setCurrency={setCurrency} fetchCryptoData={fetchCryptoData} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}/>
       
       <main className="container mx-auto px-4 py-6">
@@ -255,6 +262,7 @@ const App = () => {
 
       <Footer />
     </div>
+    </ClickSpark>
   );
 };
 

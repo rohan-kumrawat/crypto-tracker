@@ -1,12 +1,13 @@
 import React from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import DecryptedText from '../blocks/TextAnimations/DecryptedText/DecryptedText';
 
 const Header = ({ currency, setCurrency, fetchCryptoData, isDarkMode, toggleDarkMode }) => {
   return (
     <header className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md py-4">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <h1 className="text-2xl font-bold mb-2 md:mb-0">CryptoTracker</h1>
+          <h1 className="text-2xl font-bold mb-2 md:mb-0"><DecryptedText text="CryptoTracker" /></h1>
          
           <div className="flex items-center space-x-2">
             <select 
